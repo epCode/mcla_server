@@ -4,6 +4,7 @@ max_line_length = 120
 
 globals = {
 	"mcla_server",
+	"mcl_mobspawners.setup_spawner",
 }
 
 read_globals = {

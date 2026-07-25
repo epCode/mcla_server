@@ -45,3 +45,7 @@ dofile(modpath .. "/ores.lua")
 if mcla_server.setting_bool("netherite_recipes", true) then
 	dofile(modpath .. "/netherite.lua")
 end
+
+if mcla_server.setting_bool("blaze_spawners", true) then
+	dofile(modpath .. "/spawners.lua")
+end

@@ -37,3 +37,14 @@ mcla_server_ancient_debris_scarcity (Ancient debris scarcity) int 26000 1000 100
 #    Make the netherite upgrade template craftable, since its only vanilla
 #    source is a bastion remnant chest in the Nether.
 mcla_server_netherite_recipes (Overworld netherite upgrade template) bool true
+
+[Blaze spawners]
+
+#    Give dungeon mob spawners a chance of being blaze spawners, so blaze rods
+#    and brewing stay reachable without the Nether.
+mcla_server_blaze_spawners (Blaze dungeon spawners) bool true
+
+#    One in this many dungeon spawners is a blaze spawner. The remaining seven
+#    eighths keep vanilla's zombie / spider / skeleton split, which makes a
+#    blaze spawner about twice as rare as any of them.
+mcla_server_blaze_spawner_chance (Blaze spawner rarity) int 8 1 256
