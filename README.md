@@ -54,6 +54,22 @@ ore.
 Ancient debris generates level with the deep dark, in a rare band, and never
 exposed to air -- you have to dig for it, the same as in the Nether.
 
+### How much of it there is
+
+Counted over a generated 384x384 by 91-deep slab of world, on both map
+generators, alongside Mineclonia's own ores for scale:
+
+| | builtin mapgen (v7) | singlenode (mcl_levelgen) |
+| --- | --- | --- |
+| Quartz ore | 1 per 627 nodes | 1 per 1455 |
+| Gold ore (for comparison) | 1 per 583 | 1 per 1209 |
+| Diamond ore (for comparison) | 1 per 888 | 1 per 1230 |
+| Ancient debris | 1 per 18.9k (1.2 per chunk) | 1 per 24.5k (0.95 per chunk) |
+
+So quartz lands at about gold's abundance, and ancient debris at roughly one
+block per chunk in its band -- about what a Nether trip gives you in vanilla,
+and rare enough that a full netherite kit is still a project.
+
 ### Netherite without a bastion
 
 Debris smelts to scrap and four scrap plus four gold ingots already make an
@@ -101,6 +117,14 @@ Mineclonia's own art, by lifting the crystals off the nether quartz ore texture
 and recompositing them onto stone and deepslate:
 
     tools/make_quartz_textures.py /path/to/games/mineclonia
+
+## Verified behaviour
+
+Everything above was exercised on a headless server on both map generators
+before release: a full portal round trip (surface to bedrock and back to the
+portal you came from), the arrival chamber holding back the lava sea, ore
+counts over a generated slab of world, and 400 dungeon spawners per code path
+to confirm the blaze rate and that other structures' spawners are untouched.
 
 ## License
 
