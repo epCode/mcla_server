@@ -1,0 +1,10 @@
+[Bedrock portals]
+
+#    Nether portals teleport to a chamber just above bedrock in the Overworld
+#    (and back) instead of leading to the Nether.
+mcla_server_bedrock_portals (Bedrock portals instead of the Nether) bool true
+
+#    Portals at or below this height send you back up to the surface; portals
+#    above it send you down to bedrock level. The default is 16 nodes above the
+#    top of the bedrock layer.
+mcla_server_deep_portal_threshold (Deep portal Y threshold) int -108
