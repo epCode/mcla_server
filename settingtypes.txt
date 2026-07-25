@@ -20,9 +20,9 @@ mcla_server_overworld_ancient_debris (Overworld ancient debris) bool true
 #    Quartz veins per chunk. Singlenode (mcl_levelgen) worlds only.
 mcla_server_quartz_veins_per_chunk (Quartz veins per chunk) int 3 0 32
 
-#    One in this many chunks gets an ancient debris vein. Singlenode
-#    (mcl_levelgen) worlds only. Higher is rarer.
-mcla_server_ancient_debris_rarity (Ancient debris rarity) int 4 1 256
+#    Ancient debris vein attempts per chunk. Singlenode
+#    (mcl_levelgen) worlds only.
+mcla_server_ancient_debris_veins_per_chunk (Ancient debris veins per chunk) int 3 0 32
 
 #    Nodes per quartz vein attempt. Builtin mapgens (v7 and friends) only.
 #    Higher is rarer.

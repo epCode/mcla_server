@@ -22,6 +22,11 @@ local storage = mcla_server.storage
 local biome_dispatch = core.global_exists("mcl_biome_dispatch")
 	and mcl_biome_dispatch or nil
 
+-- Present only on singlenode worlds, where the level generator finishes a
+-- chunk well after core.emerge_area says it is done.
+local levelgen_generate_area = core.global_exists("mcl_levelgen")
+	and mcl_levelgen.levelgen_enabled and mcl_levelgen.generate_area or nil
+
 ------------------------------------------------------------------------------
 -- Tunables
 ------------------------------------------------------------------------------
@@ -619,6 +624,26 @@ local function with_emerged_area(obj, min, max, message, callback)
 			function(player)
 				callback(player)
 			end, {})
+		return
+	end
+
+	-- core.emerge_area is not enough on a levelgen world: it returns before
+	-- the level generator has finished with the chunk, and until then
+	-- mcl_levelgen reports the whole chunk as protected -- which would make
+	-- every candidate site look claimed. generate_area waits for the real
+	-- thing.
+	if levelgen_generate_area then
+		local done = false
+		levelgen_generate_area(min.x, min.y, min.z, max.x, max.y, max.z,
+			function(progress)
+				-- Called repeatedly as the area fills in.
+				if not done
+					and progress.n_regenerated == progress.total_regen
+					and progress.n_emerged == progress.total_emerge then
+					done = true
+					callback(obj)
+				end
+			end)
 		return
 	end
 
