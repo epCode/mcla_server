@@ -39,3 +39,5 @@ end
 if mcla_server.setting_bool("bedrock_portals", true) then
 	dofile(modpath .. "/portals.lua")
 end
+
+dofile(modpath .. "/ores.lua")
