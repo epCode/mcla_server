@@ -63,9 +63,12 @@ end
 
 if core.global_exists("mcl_levelgen") and mcl_levelgen.levelgen_enabled then
 	-- Singlenode worlds: the level generator owns ore placement.
+	core.log("action", "[mcla_server] Overworld ores: using the mcl_levelgen feature pipeline")
 	mcl_levelgen.register_levelgen_script(modpath .. "/lg_ores.lua")
 	return
 end
+
+core.log("action", "[mcla_server] Overworld ores: using core.register_ore")
 
 -- Builtin mapgens. Heights are expressed relative to the bottom of the world
 -- so that they land in the right place whatever mcl_vars decides the Overworld
@@ -76,7 +79,10 @@ local STONE = { "mcl_core:stone", "mcl_core:diorite", "mcl_core:andesite", "mcl_
 local DEEPSLATE = { "mcl_deepslate:deepslate", "mcl_deepslate:tuff" }
 
 local quartz_scarcity = mcla_server.setting_number("quartz_scarcity", 3400)
-local debris_scarcity = mcla_server.setting_number("ancient_debris_scarcity", 26000)
+-- Tuned by counting a 384x384 slab of generated v7 world: this puts roughly
+-- one debris block per chunk in the band, which is about what the levelgen
+-- side produces and about what the Nether gives you in vanilla.
+local debris_scarcity = mcla_server.setting_number("ancient_debris_scarcity", 9000)
 
 if generate_quartz then
 	local bands = {

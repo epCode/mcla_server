@@ -195,13 +195,23 @@ local function get_portal(pos)
 	return center, node
 end
 
+-- Which node an entity position falls in. This deliberately does not use
+-- vector.round: core.get_node rounds with floor(v + 0.5), and the two disagree
+-- on negative halves -- exactly the case that comes up at bedrock level, where
+-- an arriving object sits at y = -122.5.
+local function node_position(v)
+	return vector.new(math.floor(v.x + 0.5),
+			  math.floor(v.y + 0.5),
+			  math.floor(v.z + 0.5))
+end
+
 -- The portal an object is currently standing in, if any.
 local function object_portal(obj)
 	local pos = obj:get_pos()
 	if not pos then
 		return nil
 	end
-	local feet = vector.round(pos)
+	local feet = node_position(pos)
 	local center = get_portal(feet)
 	if center then
 		return center
@@ -805,6 +815,20 @@ if previous_on_ignite then
 			return lit
 		end,
 	})
+end
+
+-- ... and the same for portals lit through mcl_portals' public API rather than
+-- by a player with flint and steel.
+local previous_light = mcl_portals.light_nether_portal
+function mcl_portals.light_nether_portal(pos)
+	local lit = previous_light(pos)
+	if lit then
+		local center = get_portal(pos)
+		if center then
+			register_portal(center)
+		end
+	end
+	return lit
 end
 
 -- Backstop: any portal that stays loaded gets picked up eventually, including
