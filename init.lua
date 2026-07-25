@@ -41,3 +41,7 @@ if mcla_server.setting_bool("bedrock_portals", true) then
 end
 
 dofile(modpath .. "/ores.lua")
+
+if mcla_server.setting_bool("netherite_recipes", true) then
+	dofile(modpath .. "/netherite.lua")
+end

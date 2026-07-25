@@ -31,3 +31,9 @@ mcla_server_quartz_scarcity (Quartz ore scarcity) int 3400 100 1000000
 #    Nodes per ancient debris vein attempt. Builtin mapgens (v7 and friends)
 #    only. Higher is rarer.
 mcla_server_ancient_debris_scarcity (Ancient debris scarcity) int 26000 1000 10000000
+
+[Netherite]
+
+#    Make the netherite upgrade template craftable, since its only vanilla
+#    source is a bastion remnant chest in the Nether.
+mcla_server_netherite_recipes (Overworld netherite upgrade template) bool true
