@@ -48,3 +48,9 @@ mcla_server_blaze_spawners (Blaze dungeon spawners) bool true
 #    eighths keep vanilla's zombie / spider / skeleton split, which makes a
 #    blaze spawner about twice as rare as any of them.
 mcla_server_blaze_spawner_chance (Blaze spawner rarity) int 8 1 256
+
+[Chat]
+
+#    Let players colour their public chat with uppercase keywords, so that
+#    "Hey BLUEman!" turns the word "man" blue. See /mcla_chat in game.
+mcla_server_chat_rules (Chat colour keywords) bool true

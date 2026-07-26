@@ -12,6 +12,11 @@ Nether normally gates behind itself is moved into the Overworld instead:
   * Dungeon mob spawners have a small chance of being blaze spawners, so blaze
     rods (and therefore brewing) stay reachable (spawners.lua)
 
+Unrelated to the Nether, but server-side all the same:
+
+  * Public chat messages can be coloured with plain uppercase keywords
+    (chat.lua)
+
 Each part can be switched off individually, see settingtypes.txt.
 ]]
 
@@ -48,4 +53,8 @@ end
 
 if mcla_server.setting_bool("blaze_spawners", true) then
 	dofile(modpath .. "/spawners.lua")
+end
+
+if mcla_server.setting_bool("chat_rules", true) then
+	dofile(modpath .. "/chat.lua")
 end

@@ -97,6 +97,89 @@ Only dungeon spawners are affected. Mineshaft cave spiders, stronghold
 silverfish, woodland mansion spiders and trial chamber spawners are all left
 alone.
 
+## Chat colours
+
+Public chat messages can be coloured with plain uppercase words. The words are
+**case sensitive** and are eaten from the message, so nothing extra shows up:
+
+    Hey BLUEman!                 "man" is blue, "!" is not
+    REDBLUE ON please bro OFF    "please bro" alternates red and blue
+    BLUEREDFLASHINGNOW!          "NOW" cycles four shades
+
+A colour on its own paints the word after it, with or without a space in
+between, and punctuation is left out. Follow the colour with `ON` or `START`
+and it paints everything until `OFF` or `STOP`, or the end of the message.
+
+Colours written back to back build a cycle that is laid across the text one
+character at a time, so `REDBLUE David` alternates red and blue per letter.
+
+`FLASH` marks the colour **before** it and `FLASHING` marks every colour in the
+run, so `REDBLUE FLASHING` flashes both without spelling out `FLASH` twice. A
+flashing colour alternates between its own shade and a brighter one each time
+the cycle comes back around to it — `RED FLASH ON` shimmers between `#ff4444`
+and `#ff7777` letter by letter. Luanti chat lines cannot animate (they are
+immutable once sent), so a flash is a shimmer across the characters rather than
+over time.
+
+The colours are `RED` `GREEN` `BLUE` `YELLOW` `CYAN` `MAGENTA` `WHITE` `BLACK`
+`ORANGE` `PURPLE` `PINK` `GRAY` (`GREY` works too).
+
+`/mcla_chat <message>` previews a message to yourself without saying it, and
+`/mcla_chat` on its own lists the keywords. Neither needs a privilege.
+
+### Staying out of the way
+
+Keywords are ignored where they would swallow ordinary words:
+
+* `ON`, `START`, `FLASH` and `FLASHING` only count directly after a colour, and
+  `OFF` / `STOP` only when something is actually being painted. "TURN THE LIGHT
+  OFF" and "COME ON everybody" come through untouched.
+* A keyword is never read out of the tail of a word typed in capitals, so
+  "SCARED" keeps its `RED`. It is still read after a lowercase letter, which is
+  what lets `broOFF` close a block.
+* A backslash escapes one keyword: `\BLUE` is the word BLUE, and `\\` is a
+  backslash.
+
+A colour at the very end of a message has no word to paint and is simply eaten;
+write `\RED` if you meant to say it.
+
+### Adding your own
+
+`mcla_server.chat` is an API, so other mods can extend the grammar:
+
+```lua
+mcla_server.chat.register_color("LIME", "#aaff44")
+mcla_server.chat.register_color("GOLD", { color = "#ffcc44", flash = "#ffee99" })
+```
+
+`flash` defaults to a brighter version of `color`, so one hex is usually enough.
+Anything that is not a colour is a rule:
+
+```lua
+mcla_server.chat.register_rule({
+    name = "rainbow",
+    words = { "RAINBOW" },
+    on_token = function(state)
+        for _, name in ipairs({ "RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "PURPLE" }) do
+            local color = mcla_server.chat.colors[name]
+            state.group.colors[#state.group.colors + 1] =
+                { color = color.color, alt = color.flash }
+        end
+    end,
+})
+```
+
+`state.group` is the run of keywords being read, `state.active` and
+`state.pending` are the cycles painting the rest of the message and the next
+word. An optional `applies = function(state, word)` decides whether the word
+counts as a keyword at all — that is how `OFF` stays a normal word when nothing
+is being painted. See the header of `chat.lua` for the rest.
+
+Decoration happens inside `core.format_chat_message`, wrapping whatever was
+already there. That keeps the shout privilege check, the server's chat logging
+and other mods' `on_chat_message` handlers working, and leaves commands and
+`/me` alone.
+
 ## Settings
 
 Every part can be turned off on its own, and the generation rates and the blaze

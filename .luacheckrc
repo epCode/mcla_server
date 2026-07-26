@@ -4,6 +4,7 @@ max_line_length = 120
 
 globals = {
 	"mcla_server",
+	"core.format_chat_message",
 	"mcl_mobspawners.setup_spawner",
 	"mcl_portals.light_nether_portal",
 }
